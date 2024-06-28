@@ -1,0 +1,8 @@
+.register-container {
+    display:flex;
+    flex-direction: column;
+    place-items: center;
+
+    height: 80vh;
+    width: 75vw;
+}
