@@ -1,6 +1,6 @@
 import "./Admin.css";
 import { useEffect, useState } from "react";
-import { getAllUsers } from "../../services/user.services";
+import { getAllUsers, updateUserById } from "../../services/user.services";
 import { BsBrush } from "react-icons/bs";
 import { CustomInput } from "../../components/custom-input/CustomInput";
 
@@ -9,14 +9,15 @@ export default function Admin() {
   const [usersFound, setUsersFound] = useState([]);
   const [filter, setFilter] = useState("");
   const [editUser, setEditUser] = useState(null);
-  const [editUserData, setEditUserData] = useState({})
+  const [editUserData, setEditUserData] = useState({});
 
   const userData = JSON.parse(localStorage.getItem("userData"));
   const token = userData?.token;
 
-  useEffect(() => {
-    console.log(editUserData)
-  }, [editUserData]);
+//   useEffect(() => {
+//     console.log(editUserData);
+//     console.log(editUser);
+//   }, [editUserData, editUser]);
 
   useEffect(() => {
     const filteredUsers = users.filter((user) => {
@@ -38,9 +39,18 @@ export default function Admin() {
 
   const editInputHandler = (e) => {
     setEditUserData({
-        ...editUserData,
-        [e.target.name]: e.target.value
-    })
+      ...editUserData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const editUserHandler = (user) => {
+    setEditUser(user._id);
+    setEditUserData(user);
+  };
+
+  const submitChanges = (updatedUser, token) => {
+    updateUserById(updatedUser, token)
   }
 
   /* Ver todos los usuarios, Filtrar usuarios por email, eliminar usuarios, cambiar roles, CRUD servicios, ver citas */
@@ -59,7 +69,7 @@ export default function Admin() {
           </div>
           {usersFound.map((user) => {
             return (
-              <div className="user-table-data-container"  key={user._id}>
+              <div className="user-table-data-container" key={user._id}>
                 <div className="user-table-data">
                   <p>{user.name}</p>
                   <p>{user.email}</p>
@@ -69,18 +79,35 @@ export default function Admin() {
                     onClick={() =>
                       editUser === user._id
                         ? setEditUser(null)
-                        : setEditUser(user._id)
+                        : editUserHandler(user)
                     }
                   />
                 </div>
                 <div className="user-table-edit">
                   {editUser === user._id && (
-                    <CustomInput
-                      type="email"
-                      name="email"
-                      value={editUserData.email}
-                      handler={editInputHandler}
-                    />
+                    <>
+                      <CustomInput
+                        type="text"
+                        name="name"
+                        value={editUserData.name}
+                        handler={editInputHandler}
+                      />
+                      <CustomInput
+                        type="email"
+                        name="email"
+                        value={editUserData.email}
+                        handler={editInputHandler}
+                      />
+                      <CustomInput
+                        type="text"
+                        name="role"
+                        value={editUserData.role}
+                        handler={editInputHandler}
+                      />
+                      <button onClick={() => submitChanges(editUserData, token)}>
+                        Save changes
+                      </button>
+                    </>
                   )}
                 </div>
               </div>

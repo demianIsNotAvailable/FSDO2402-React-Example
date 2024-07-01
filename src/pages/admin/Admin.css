@@ -16,3 +16,8 @@
 .cursor-pointer {
     cursor: pointer
 }
+
+.user-table-edit {
+    display: flex;
+    flex-direction: column;
+}
