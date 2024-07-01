@@ -15,18 +15,17 @@ function App() {
 
   return (
     <>
-      <Header className="header-design" />
-      <Routes>
-        <Route path="*" element={<Navigate to="/" />} />
-        <Route path="/" element={<Home />} />
-        <Route path="register" element={<Register />} />
-        <Route path="login" element={<Login />} />
-        <Route path="profile" element={<PrivateRoute Page={Profile} />} /> 
+        <Header className="header-design" />
+        <Routes>
+          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="/" element={<Home />} />
+          <Route path="register" element={<Register />} />
+          <Route path="login" element={<Login />} />
+          <Route path="profile" element={<PrivateRoute Page={Profile} />} />
 
-        { token ? (
-            <Route path="admin" element={<Admin />} />
-        ) : null}
-      </Routes>
+          {token && <Route path="admin" element={<Admin />} />}
+        </Routes>
+
     </>
   );
 }
