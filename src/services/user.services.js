@@ -59,7 +59,8 @@ export const updateProfile = async (data, token) => {
   }
 };
 
-export const updateUserById = async (data, token) => {
+export const updateUserById = async (data, token, id) => {
+  console.log(data, token)
   const options = {
     method: "PUT",
     headers: {
@@ -70,7 +71,7 @@ export const updateUserById = async (data, token) => {
   };
 
   try {
-    const response = await fetch(`${BASE_URL}/user`, options);
+    const response = await fetch(`${BASE_URL}/user/${id}`, options);
     const data = await response.json();
     console.log(response)
     console.log(data, "estamso actualizados=");

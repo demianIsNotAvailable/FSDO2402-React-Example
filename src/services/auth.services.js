@@ -20,7 +20,7 @@ export const register = async (user) => {
     }
 }
 
-export const login = async (credentials) => {
+export const loginCall = async (credentials) => {
     const options = {
         method: "POST",
         headers: {

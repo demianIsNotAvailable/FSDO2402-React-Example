@@ -2,14 +2,17 @@ import { Link } from "react-router-dom";
 import "./Login.css";
 import { useState } from "react";
 import { CustomInput } from "../../components/custom-input/CustomInput";
-import { login } from "../../services/auth.services";
+import { loginCall } from "../../services/auth.services";
 import { jwtDecode } from "jwt-decode";
+import { useAuth } from "../../contexts/auth-context/AuthContext";
 
 export default function Login() {
   const [credentials, setCredentials] = useState({
     email: '',
     password: '',
   });
+
+  const {login} = useAuth()
 
   const inputHandler = (e) => {
     setCredentials({
@@ -19,11 +22,8 @@ export default function Login() {
   }
 
   const loginHandler = async () => {
-    const token = await login(credentials)
+    const token = await loginCall(credentials)
     const decoded = jwtDecode(token)
-    console.log(token, "mi token")
-    console.log(decoded, "yo soy la info del token")
-
     if (token) {
 
       const userData = {
@@ -31,7 +31,7 @@ export default function Login() {
         decoded: decoded
       }
   
-      localStorage.setItem("userData", JSON.stringify(userData))
+      login(userData)
     } else  {
       console.log("login sin éxito")
     }

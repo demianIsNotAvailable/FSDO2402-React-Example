@@ -14,10 +14,10 @@ export default function Admin() {
   const userData = JSON.parse(localStorage.getItem("userData"));
   const token = userData?.token;
 
-//   useEffect(() => {
-//     console.log(editUserData);
-//     console.log(editUser);
-//   }, [editUserData, editUser]);
+  useEffect(() => {
+    console.log(editUserData);
+    console.log(editUser);
+  }, [editUserData, editUser]);
 
   useEffect(() => {
     const filteredUsers = users.filter((user) => {
@@ -50,7 +50,7 @@ export default function Admin() {
   };
 
   const submitChanges = (updatedUser, token) => {
-    updateUserById(updatedUser, token)
+    updateUserById(updatedUser, token, editUser)
   }
 
   /* Ver todos los usuarios, Filtrar usuarios por email, eliminar usuarios, cambiar roles, CRUD servicios, ver citas */
@@ -89,7 +89,7 @@ export default function Admin() {
                       <CustomInput
                         type="text"
                         name="name"
-                        value={editUserData.name}
+                        value={editUserData.name || ""}
                         handler={editInputHandler}
                       />
                       <CustomInput
